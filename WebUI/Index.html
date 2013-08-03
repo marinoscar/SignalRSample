@@ -31,13 +31,17 @@
                     ]
                 }]
             });
-            $('#sendData').click(function () {
-                var value = $('#numberValue').val();
-                addPoint(value);
+            
+            var chartConn = $.connection.chart;
+
+            $.connection.hub.start().done(function () {
+                console.log('hub started');
             });
-            $('#randomData').click(function () {
-                addPoint(Math.random() * 100);
-            });
+
+            chartConn.client.sendData = function (data) {
+                addPoint(data);
+            };
+
         });
         function addPoint(value) {
             var chart = $('#chart').highcharts();
@@ -49,9 +53,9 @@
     <div id="chart">
     </div>
     <br />
-    <input id="numberValue" type="text" />
-    <input id="sendData" type="button" value="Add Point" />
-    <input id="randomData" type="button" value="Random Point" />
+    <br />
+    <br />
+    <a href="Client.html" target="_blank">Client Page</a>
 
 </body>
 </html>
