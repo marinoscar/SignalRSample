@@ -2,18 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Signal R Client Sample</title>
+    <link href="Styles/bootstrap.min.css" rel="stylesheet" media="screen" />
+
+    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="Scripts/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="Scripts/jquery.signalR-1.1.2.min.js"></script>
     <script src="signalr/hubs"></script>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             var chart = $.connection.chart;
-            
+
             $.connection.hub.start().done(function () {
                 $('#sendData').click(function () {
-                    chart.server.sendData($('#numberValue').val());
+                    var value = $('#numberValue').val();
+                    var isnum = /^\d+$/.test(value);
+                    if (!isnum) {
+                        showValidation();
+                        return;
+                    } else {
+                        $('#message').html('');
+                    }
+                    chart.server.sendData(value);
                 });
                 $('#randomData').click(function () {
+                    $('#message').html('');
                     chart.server.sendData(Math.random() * 100);
                 });
             });
@@ -22,14 +34,34 @@
         function sendData(data) {
             chart.server.sendData(parseFloat(data));
         }
+
+        function showValidation() {
+            $('#message').html('<div class="alert"><a class="close" data-dismiss="alert">×</a><span>Only numeric values allowed</span></div>');
+        }
+
     </script>
 </head>
 <body>
-    <br />
-    <br />
-    <br />
-    <input id="numberValue" type="text" />
-    <input id="sendData" type="button" value="Add Point" />
-    <input id="randomData" type="button" value="Random Point" />
+    <div class="container">
+        <br/>
+        <br/>
+        <div id="message">
+        </div>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="numberValue" class="col-lg-2 control-label">Data Value</label>
+                <div class="col-lg-10">
+                    <input id="numberValue" type="text" class="form-control" placeholder="Enter numeric value to send to chart" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10">
+                    <button  id="sendData" type="button" class="btn btn-default">Add Point</button>
+                    <button  id="randomData" type="button" class="btn btn-default">Random Point</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </body>
 </html>

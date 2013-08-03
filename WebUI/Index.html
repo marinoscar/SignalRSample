@@ -2,6 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Signal R Sample</title>
+    <link href="Styles/bootstrap.min.css" rel="stylesheet" media="screen" />
+
+    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="Scripts/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="Scripts/highcharts.js"></script>
     <script type="text/javascript" src="Scripts/jquery.signalR-1.1.2.min.js"></script>
@@ -31,7 +34,7 @@
                     ]
                 }]
             });
-            
+
             var chartConn = $.connection.chart;
 
             $.connection.hub.start().done(function () {
@@ -52,10 +55,11 @@
 <body>
     <div id="chart">
     </div>
-    <br />
-    <br />
-    <br />
-    <a href="Client.html" target="_blank">Client Page</a>
-
+    <div class="container">
+        <br />
+        <br />
+        <br />
+        <a href="Client.html" target="_blank"><strong>Add data points</strong></a>
+    </div>
 </body>
 </html>
