@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Signal R Sample</title>
+    <script type="text/javascript" src="Scripts/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="Scripts/highcharts.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.signalR-1.1.2.min.js"></script>
+    <script src="signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#chart').highcharts({
+                title: {
+                    text: 'Sample Data',
+                    x: -20 //center
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Percentage %'
+                    }
+                },
+                series: [{
+                    type: 'spline',
+                    name: 'sample data',
+                    pointInterval: 24 * 3600 * 1000,
+                    pointStart: Date.UTC(2013, 7, 01),
+                    data: [
+                        26, 28, 30, 33, 45, 39, 41, 50, 12, 16, 18, 21, 22, 22, 22, 34, 67, 78, 80, 66, 63, 31
+                    ]
+                }]
+            });
+            $('#sendData').click(function () {
+                var value = $('#numberValue').val();
+                addPoint(value);
+            });
+            $('#randomData').click(function () {
+                addPoint(Math.random() * 100);
+            });
+        });
+        function addPoint(value) {
+            var chart = $('#chart').highcharts();
+            chart.series[0].addPoint(parseFloat(value));
+        }
+    </script>
+</head>
+<body>
+    <div id="chart">
+    </div>
+    <br />
+    <input id="numberValue" type="text" />
+    <input id="sendData" type="button" value="Add Point" />
+    <input id="randomData" type="button" value="Random Point" />
+
+</body>
+</html>
